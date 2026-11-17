@@ -1,0 +1,14 @@
+name: Bug
+description: Something doesn't work as documented
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "Command, expected vs actual output" }
+    validations: { required: true }
+  - type: textarea
+    id: doctor
+    attributes: { label: Output of `npx claude-eng-team doctor`, render: text }
+  - type: input
+    id: os
+    attributes: { label: OS and Claude Code version }

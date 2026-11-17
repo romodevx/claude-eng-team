@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits", "helpers:pinGitHubActionDigests"],
+  "baseBranches": ["dev"],
+  "schedule": ["before 6am on monday"],
+  "timezone": "America/Mexico_City",
+  "prConcurrentLimit": 5,
+  "vulnerabilityAlerts": { "enabled": true, "schedule": ["at any time"] },
+  "packageRules": [
+    { "matchUpdateTypes": ["minor", "patch"], "groupName": "non-major dependencies" },
+    { "matchDepTypes": ["devDependencies"], "matchUpdateTypes": ["patch"], "automerge": true }
+  ]
+}

@@ -1,0 +1,682 @@
+{
+  "groups": {
+    "engineering": {
+      "description": "Go style and errors, Postgres, React, Terraform, SLOs, CI minutes, code search, browser automation",
+      "recommended": true,
+      "skills": [
+        {
+          "name": "golang-code-style",
+          "repo": "samber/cc-skills-golang",
+          "path": "skills/golang-code-style",
+          "commit": "bb1d43d98a3f8ab639a0042f90d0ec524e39a477",
+          "license": "MIT",
+          "author": "Samuel Berthe"
+        },
+        {
+          "name": "golang-error-handling",
+          "repo": "samber/cc-skills-golang",
+          "path": "skills/golang-error-handling",
+          "commit": "bb1d43d98a3f8ab639a0042f90d0ec524e39a477",
+          "license": "MIT",
+          "author": "Samuel Berthe"
+        },
+        {
+          "name": "supabase-postgres-best-practices",
+          "repo": "supabase/agent-skills",
+          "path": "skills/supabase-postgres-best-practices",
+          "commit": "c9be0e931b7930f7d02126d04774d904c381e7d7",
+          "license": "MIT",
+          "author": "Supabase"
+        },
+        {
+          "name": "vercel-react-best-practices",
+          "repo": "vercel-labs/agent-skills",
+          "path": "skills/react-best-practices",
+          "commit": "d347a1f61b333428434a2c1c55c261344e7cda57",
+          "license": "MIT",
+          "author": "Vercel"
+        },
+        {
+          "name": "terraform-style-guide",
+          "repo": "hashicorp/agent-skills",
+          "path": "plugins/terraform/skills/terraform-style-guide",
+          "commit": "bc6b14b77481c3cbfbb06a0166be7245ed45798c",
+          "license": "MPL-2.0",
+          "author": "HashiCorp"
+        },
+        {
+          "name": "slo-implementation",
+          "repo": "wshobson/agents",
+          "path": "plugins/observability-monitoring/skills/slo-implementation",
+          "commit": "7e2fb559cf4b824b27f1fec49fe88f7511066d26",
+          "license": "MIT",
+          "author": "Seth Hobson"
+        },
+        {
+          "name": "github-actions-efficiency",
+          "repo": "github/awesome-copilot",
+          "path": "skills/github-actions-efficiency",
+          "commit": "61fa1fa8fcc63d6dbd2f07a75aeb8e214df5acfb",
+          "license": "MIT",
+          "author": "GitHub"
+        },
+        {
+          "name": "file-search",
+          "repo": "netresearch/file-search-skill",
+          "path": "skills/file-search",
+          "commit": "429631965edc42d78c580223371c0539169c3b81",
+          "license": "MIT AND CC-BY-SA-4.0",
+          "author": "Netresearch DTT GmbH",
+          "notes": "Dual-licensed MIT (code) and CC-BY-SA-4.0 (docs)."
+        },
+        {
+          "name": "agent-browser",
+          "repo": "vercel-labs/agent-browser",
+          "path": "skills/agent-browser",
+          "commit": "5868f7c05020e047c00e68e4abf9253cce864f41",
+          "license": "Apache-2.0",
+          "author": "Vercel"
+        },
+        {
+          "name": "find-skills",
+          "repo": "vercel-labs/skills",
+          "path": "skills/find-skills",
+          "commit": "77cfce8221e6e112a70152a230abc848b8b14c19",
+          "license": "MIT",
+          "author": "Vercel"
+        }
+      ]
+    },
+    "security": {
+      "description": "Security-focused diff review, threat modeling, skill auditing",
+      "recommended": true,
+      "skills": [
+        {
+          "name": "differential-review",
+          "repo": "trailofbits/skills",
+          "path": "plugins/differential-review/skills/differential-review",
+          "commit": "711af095215ad4ecde5b90cd1d0124b3f1c4ca9e",
+          "license": "CC-BY-SA-4.0",
+          "author": "Trail of Bits",
+          "notes": "CC-BY-SA-4.0. Upstream may save reports outside the project; the team's rules ask for docs/security/reviews/."
+        },
+        {
+          "name": "security-threat-model",
+          "repo": "openai/skills",
+          "path": "skills/.curated/security-threat-model",
+          "commit": "49f948faa9258a0c61caceaf225e179651397431",
+          "license": "Apache-2.0",
+          "author": "OpenAI"
+        },
+        {
+          "name": "skill-inspector",
+          "repo": "NVIDIA/SkillSpector",
+          "path": "skills/skill-inspector",
+          "commit": "cfd4e64abe00fabbee84a7508787df5e95e7dad7",
+          "license": "Apache-2.0",
+          "author": "NVIDIA",
+          "notes": "Uses NVIDIA SkillSpector; see its README for the CLI."
+        }
+      ]
+    },
+    "product": {
+      "description": "User stories, scrum facilitation, requirement grilling",
+      "recommended": true,
+      "skills": [
+        {
+          "name": "user-stories",
+          "repo": "phuryn/pm-skills",
+          "path": "pm-execution/skills/user-stories",
+          "commit": "2a12295a7717569baa7be181b4cfebe3ca38a6bb",
+          "license": "MIT",
+          "author": "Pawel Huryn"
+        },
+        {
+          "name": "scrum-master",
+          "repo": "alirezarezvani/claude-skills",
+          "path": "project-management/skills/scrum-master",
+          "commit": "9ef0c3c213932e645cc5cbeeb3c35c3a762a2437",
+          "license": "MIT",
+          "author": "Alireza Rezvani"
+        },
+        {
+          "name": "grilling",
+          "repo": "mattpocock/skills",
+          "path": "skills/productivity/grilling",
+          "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+          "license": "MIT",
+          "author": "Matt Pocock"
+        }
+      ]
+    },
+    "design": {
+      "description": "UI craft, animation (web and Expo), design systems, frontend design",
+      "recommended": false,
+      "skills": [
+        {
+          "name": "emil-design-eng",
+          "repo": "emilkowalski/skills",
+          "path": "skills/emil-design-eng",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "animate",
+          "repo": "emilkowalski/skills",
+          "path": "skills/animate",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "animate-expo",
+          "repo": "emilkowalski/skills",
+          "path": "skills/animate-expo",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "animation-performance",
+          "repo": "emilkowalski/skills",
+          "path": "skills/animation-performance",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "animation-vocabulary",
+          "repo": "emilkowalski/skills",
+          "path": "skills/animation-vocabulary",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "apple-design",
+          "repo": "emilkowalski/skills",
+          "path": "skills/apple-design",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "ask-sonner",
+          "repo": "emilkowalski/skills",
+          "path": "skills/ask-sonner",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "break-ui",
+          "repo": "emilkowalski/skills",
+          "path": "skills/break-ui",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "find-animation-opportunities",
+          "repo": "emilkowalski/skills",
+          "path": "skills/find-animation-opportunities",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "improve-animations",
+          "repo": "emilkowalski/skills",
+          "path": "skills/improve-animations",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "remove-animations",
+          "repo": "emilkowalski/skills",
+          "path": "skills/remove-animations",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "review-animations",
+          "repo": "emilkowalski/skills",
+          "path": "skills/review-animations",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "pick-ui-library",
+          "repo": "emilkowalski/skills",
+          "path": "skills/pick-ui-library",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "prototype",
+          "repo": "emilkowalski/skills",
+          "path": "skills/prototype",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "mobile-native",
+          "repo": "emilkowalski/skills",
+          "path": "skills/mobile-native",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "write-swift",
+          "repo": "emilkowalski/skills",
+          "path": "skills/write-swift",
+          "commit": "f1090bec277140d02ed202440185ad9d02ac1490",
+          "license": "MIT",
+          "author": "Emil Kowalski"
+        },
+        {
+          "name": "anti-ui-slop",
+          "repo": "uizze/uizze",
+          "path": "skills/anti-ui-slop",
+          "commit": "fc401e9e654cbafe427b0c98142fc8bccd0c4e7e",
+          "license": "Apache-2.0",
+          "author": "Uizze"
+        },
+        {
+          "name": "frontend-design",
+          "repo": "anthropics/skills",
+          "path": "skills/frontend-design",
+          "commit": "ca45fc496a3436251f191354091d557da31c15b5",
+          "license": "Apache-2.0",
+          "author": "Anthropic"
+        },
+        {
+          "name": "canvas-design",
+          "repo": "anthropics/skills",
+          "path": "skills/canvas-design",
+          "commit": "ca45fc496a3436251f191354091d557da31c15b5",
+          "license": "Apache-2.0",
+          "author": "Anthropic"
+        },
+        {
+          "name": "web-design-guidelines",
+          "repo": "vercel-labs/agent-skills",
+          "path": "skills/web-design-guidelines",
+          "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+          "license": "MIT",
+          "author": "Vercel"
+        },
+        {
+          "name": "banner-design",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "path": ".claude/skills/banner-design",
+          "commit": "232f201dfa3ec3d74af5dff80ec61eb8144c7507",
+          "license": "MIT",
+          "author": "Next Level Builder (claudekit)"
+        },
+        {
+          "name": "brand",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "path": ".claude/skills/brand",
+          "commit": "9fd25fe07e46ae444edc356e62fe913347ab9e23",
+          "license": "MIT",
+          "author": "Next Level Builder (claudekit)"
+        },
+        {
+          "name": "design",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "path": ".claude/skills/design",
+          "commit": "232f201dfa3ec3d74af5dff80ec61eb8144c7507",
+          "license": "MIT",
+          "author": "Next Level Builder (claudekit)"
+        },
+        {
+          "name": "design-system",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "path": ".claude/skills/design-system",
+          "commit": "9fd25fe07e46ae444edc356e62fe913347ab9e23",
+          "license": "MIT",
+          "author": "Next Level Builder (claudekit)"
+        },
+        {
+          "name": "slides",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "path": ".claude/skills/slides",
+          "commit": "232f201dfa3ec3d74af5dff80ec61eb8144c7507",
+          "license": "MIT",
+          "author": "Next Level Builder (claudekit)"
+        },
+        {
+          "name": "ui-styling",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "path": ".claude/skills/ui-styling",
+          "commit": "98a80d8630ac1a7b56d7a29c711e203aba08885a",
+          "license": "MIT",
+          "author": "Next Level Builder (claudekit)"
+        }
+      ]
+    },
+    "marketing": {
+      "description": "Copywriting, CRO, SEO and AI-SEO, schema, ads, conversion tracking",
+      "recommended": false,
+      "skills": [
+        {
+          "name": "copywriting",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/copywriting",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "cro",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/cro",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "seo-audit",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/seo-audit",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "ai-seo",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/ai-seo",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "schema",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/schema",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "ads",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/ads",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "conversion-tracking",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/conversion-tracking",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        },
+        {
+          "name": "marketing-psychology",
+          "repo": "coreyhaines31/marketingskills",
+          "path": "skills/marketing-psychology",
+          "commit": "88c79f6528a9347420e57ceb1fff9a60de651768",
+          "license": "MIT",
+          "author": "Corey Haines"
+        }
+      ]
+    },
+    "context": {
+      "description": "Context engineering for agents: compression, memory, evaluation, multi-agent patterns",
+      "recommended": false,
+      "skills": [
+        {
+          "name": "context-fundamentals",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/context-fundamentals",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "context-degradation",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/context-degradation",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "context-compression",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/context-compression",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "context-optimization",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/context-optimization",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "filesystem-context",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/filesystem-context",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "memory-systems",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/memory-systems",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "multi-agent-patterns",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/multi-agent-patterns",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "tool-design",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/tool-design",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "evaluation",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/evaluation",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "advanced-evaluation",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/advanced-evaluation",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "harness-engineering",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/harness-engineering",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "hosted-agents",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/hosted-agents",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "latent-briefing",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/latent-briefing",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "project-development",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/project-development",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        },
+        {
+          "name": "bdi-mental-states",
+          "repo": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+          "path": "skills/bdi-mental-states",
+          "commit": "cbc2c978133d882acfa02f51d72d7092911bbd83",
+          "license": "MIT",
+          "author": "Muratcan Koylan"
+        }
+      ]
+    },
+    "writing": {
+      "description": "Remove AI-writing tells; terse mode",
+      "recommended": false,
+      "skills": [
+        {
+          "name": "humanizer",
+          "repo": "blader/humanizer",
+          "path": ".",
+          "commit": "d8085c7da5ddb9a179572837d4806b68cde3e9ff",
+          "license": "MIT",
+          "author": "Siqi Chen (blader)"
+        },
+        {
+          "name": "caveman",
+          "repo": "JuliusBrussee/caveman",
+          "path": "skills/caveman",
+          "commit": "2e068f735253cce28256744804785f01887d9646",
+          "license": "Apache-2.0",
+          "author": "Julius Brussee"
+        }
+      ]
+    },
+    "legal": {
+      "description": "Compliance check, legal risk assessment, Mexican privacy-notice texts",
+      "recommended": false,
+      "skills": [
+        {
+          "name": "compliance-check",
+          "repo": "anthropics/knowledge-work-plugins",
+          "path": "legal/skills/compliance-check",
+          "commit": "2574e29377c7173d0cecffef29a6ecbd7f8ccb5d",
+          "license": "Apache-2.0",
+          "author": "Anthropic"
+        },
+        {
+          "name": "legal-risk-assessment",
+          "repo": "anthropics/knowledge-work-plugins",
+          "path": "legal/skills/legal-risk-assessment",
+          "commit": "2574e29377c7173d0cecffef29a6ecbd7f8ccb5d",
+          "license": "Apache-2.0",
+          "author": "Anthropic"
+        },
+        {
+          "name": "textos-legales-arrobabeto",
+          "repo": "ThomasMoreAI/legal-skills-open",
+          "path": "mx/data-protection/skills/textos-legales-arrobabeto",
+          "commit": "2896ce4c0ca1632b43efb29647c2811eadc89247",
+          "license": "MIT",
+          "author": "arrobabeto (via ThomasMoreAI)",
+          "notes": "Spanish, Mexico-focused. Review its scripts before use."
+        }
+      ]
+    }
+  },
+  "bundles": [
+    {
+      "name": "gstack",
+      "repo": "garrytan/gstack",
+      "license": "MIT",
+      "author": "Garry Tan",
+      "why": "visible-browser /qa, /review, /ship, /cso, /investigate and 60 more",
+      "install": [
+        "git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup"
+      ]
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "license": "MIT",
+      "author": "Next Level Builder",
+      "why": "UI/UX design intelligence (styles, palettes, font pairings)",
+      "install": [
+        "see https://github.com/nextlevelbuilder/ui-ux-pro-max-skill#installation"
+      ]
+    }
+  ],
+  "plugins": [
+    {
+      "name": "superpowers",
+      "repo": "obra/superpowers",
+      "license": "MIT",
+      "author": "Jesse Vincent",
+      "why": "process skills: systematic debugging, TDD, plans",
+      "install": [
+        "/plugin marketplace add obra/superpowers-marketplace",
+        "/plugin install superpowers@superpowers-marketplace"
+      ]
+    },
+    {
+      "name": "claude-mem",
+      "repo": "thedotmack/claude-mem",
+      "license": "see repo",
+      "author": "Alex Newman",
+      "why": "persistent memory across sessions (check its current license)",
+      "install": [
+        "/plugin marketplace add thedotmack/claude-mem",
+        "/plugin install claude-mem@thedotmack"
+      ]
+    },
+    {
+      "name": "vercel",
+      "repo": "vercel/vercel-plugin",
+      "license": "Apache-2.0",
+      "author": "Vercel",
+      "why": "Vercel deploys and platform docs",
+      "install": [
+        "/plugin install vercel@claude-plugins-official"
+      ]
+    },
+    {
+      "name": "skill-creator",
+      "repo": "anthropics/claude-plugins-official/tree/main/plugins/skill-creator",
+      "license": "Apache-2.0",
+      "author": "Anthropic",
+      "why": "write and evaluate your own skills",
+      "install": [
+        "/plugin install skill-creator@claude-plugins-official"
+      ]
+    }
+  ]
+}

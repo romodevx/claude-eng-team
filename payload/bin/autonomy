@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Per-project command autonomy, read by ~/.claude/hooks/guard-actions.py.
+#   autonomy auto   [dir]  -> commands run without prompts (deploys and remote data/schema still ask)
+#   autonomy review [dir]  -> every Bash command asks for confirmation
+#   autonomy status [dir]  -> print the current mode ("unset" = not chosen yet)
+#   autonomy clear  [dir]  -> forget the choice (the team asks again on the next task)
+set -euo pipefail
+
+mode="${1:-status}"
+dir="${2:-$PWD}"
+root="$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null || echo "$dir")"
+file="$root/.claude/autonomy"
+
+case "$mode" in
+  auto|review)
+    mkdir -p "$root/.claude"
+    printf '%s\n' "$mode" > "$file"
+    exclude="$root/.git/info/exclude"
+    if [ -d "$root/.git" ] && ! grep -qxF '.claude/autonomy' "$exclude" 2>/dev/null; then
+      printf '.claude/autonomy\n' >> "$exclude"
+    fi
+    echo "autonomy=$mode ($root)"
+    ;;
+  status)
+    if [ -f "$file" ]; then echo "autonomy=$(head -n1 "$file") ($root)"; else echo "autonomy=unset ($root)"; fi
+    ;;
+  clear)
+    rm -f "$file"
+    echo "autonomy=unset ($root)"
+    ;;
+  *)
+    echo "usage: autonomy auto|review|status|clear [dir]" >&2
+    exit 2
+    ;;
+esac

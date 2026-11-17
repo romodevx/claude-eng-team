@@ -1,0 +1,39 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [dev, main]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [18, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ matrix.node }}" }
+      - run: git config --global user.email ci@example.com && git config --global user.name ci
+      - run: npm test
+      - name: Install into a throwaway HOME, then uninstall
+        run: |
+          H=$(mktemp -d)
+          node bin/cli.js install --yes --home "$H" --skills none
+          node bin/cli.js doctor --home "$H" || true
+          node bin/cli.js uninstall --home "$H"
+          test -z "$(ls -A "$H")"  # the home is left exactly as it was: empty
+      - name: Package contents
+        run: npm pack --dry-run
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }

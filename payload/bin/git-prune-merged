@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# git-prune-merged — return to dev and delete every branch already merged, local and remote.
+# Policy: ~/.claude/rules/git-workflow.md ("Closing a branch").
+#
+# Usage: git-prune-merged [--apply]     (default: dry run, prints what it would delete)
+#
+# "Merged" = its work is already in origin/dev or origin/master, by any merge style:
+#   - ancestor of the base (merge commit / fast-forward), or
+#   - squash-merged: the branch's whole diff, squashed into one commit, has a patch-id
+#     already present in the base (git cherry), or
+#   - contained in the head of a MERGED GitHub PR (stacked sub-branches, rebased squashes).
+#   Branches with any commit beyond those are KEPT.
+# Never touches dev, main, master, or a branch checked out in another worktree.
+set -euo pipefail
+
+readonly PROTECTED_RE='^(dev|main|master|HEAD)$'
+apply=false
+[ "${1:-}" = "--apply" ] && apply=true
+
+git rev-parse --git-dir >/dev/null
+git fetch --prune --quiet origin
+
+bases=()
+for b in dev master main; do
+  git show-ref --verify --quiet "refs/remotes/origin/$b" && bases+=("origin/$b")
+done
+[ ${#bases[@]} -gt 0 ] || { echo "git-prune-merged: no origin/dev|master|main" >&2; exit 2; }
+home="${bases[0]#origin/}"   # dev when it exists, else master/main
+
+if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+  echo "git-prune-merged: uncommitted changes on $(git branch --show-current); commit or stash first" >&2
+  exit 2
+fi
+
+# Heads of merged PRs, under refs/merged-pr/* (needs gh; skipped quietly without it).
+readonly MERGED_PR_LIMIT=500
+git for-each-ref --format='delete %(refname)' refs/merged-pr | git update-ref --stdin
+if command -v gh >/dev/null && prs="$(gh pr list --state merged --limit "$MERGED_PR_LIMIT" --json number --jq '.[].number' 2>/dev/null)" && [ -n "$prs" ]; then
+  refspecs=()
+  for n in $prs; do refspecs+=("+refs/pull/$n/head:refs/merged-pr/$n"); done
+  git fetch --quiet origin "${refspecs[@]}" || echo "note: could not fetch merged PR heads; squash detection only" >&2
+fi
+trap 'git for-each-ref --format="delete %(refname)" refs/merged-pr | git update-ref --stdin' EXIT
+
+in_merged_pr() { [ -n "$(git for-each-ref --count=1 --contains "$1" refs/merged-pr)" ]; }
+
+is_merged() { # $1 = commit-ish
+  local base mb squashed
+  in_merged_pr "$1" && return 0
+  for base in "${bases[@]}"; do
+    git merge-base --is-ancestor "$1" "$base" && return 0
+    mb="$(git merge-base "$base" "$1")" || continue
+    squashed="$(git commit-tree "$1^{tree}" -p "$mb" -m squash)"
+    [ "$(git cherry "$base" "$squashed")" = "- $squashed" ] && return 0
+  done
+  return 1
+}
+
+in_other_worktree() {
+  git worktree list --porcelain | grep -qx "branch refs/heads/$1"
+}
+
+if $apply && [ "$(git branch --show-current)" != "$home" ]; then
+  git checkout --quiet "$home"
+fi
+if $apply; then
+  git merge --ff-only --quiet "origin/$home" || echo "note: local $home is not a fast-forward of origin/$home; left as is"
+fi
+
+deleted=0; kept=()
+while read -r branch; do
+  [[ "$branch" =~ $PROTECTED_RE ]] && continue
+  if [ "$branch" = "$(git branch --show-current)" ] || in_other_worktree "$branch"; then
+    kept+=("$branch (checked out)"); continue
+  fi
+  if is_merged "refs/heads/$branch"; then
+    if $apply; then git branch -D --quiet "$branch"; fi
+    echo "delete local  $branch"; deleted=$((deleted + 1))
+  else
+    kept+=("$branch (local, unmerged)")
+  fi
+done < <(git for-each-ref --format='%(refname:lstrip=2)' refs/heads)
+
+while read -r branch; do
+  [[ "$branch" =~ $PROTECTED_RE ]] && continue
+  if is_merged "refs/remotes/origin/$branch"; then
+    if $apply; then git push --quiet origin --delete "$branch"; fi
+    echo "delete remote $branch"; deleted=$((deleted + 1))
+  else
+    kept+=("origin/$branch (unmerged)")
+  fi
+done < <(git for-each-ref --format='%(refname:lstrip=3)' refs/remotes/origin)
+
+$apply || echo "(dry run — rerun with --apply)"
+echo "deleted: $deleted"
+if [ ${#kept[@]} -gt 0 ]; then
+  echo "KEPT (not merged — ask the owner):"; printf '  %s\n' "${kept[@]}"
+fi

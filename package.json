@@ -1,0 +1,49 @@
+{
+  "name": "claude-eng-team",
+  "version": "0.1.0",
+  "description": "A full engineering team for Claude Code: 16 role agents, enforced approvals, TDD, ADRs, threat models and a story → dev → prod git flow. One command to install, one to undo.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "agents",
+    "subagents",
+    "skills",
+    "ai-engineering",
+    "tdd",
+    "devops",
+    "hooks"
+  ],
+  "homepage": "https://github.com/romodevx/claude-eng-team#readme",
+  "bugs": "https://github.com/romodevx/claude-eng-team/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romodevx/claude-eng-team.git"
+  },
+  "license": "MIT",
+  "author": "Andres Romo (ROMOLABS)",
+  "bin": {
+    "claude-eng-team": "bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "payload/",
+    "!**/__pycache__/",
+    "!**/*.pyc",
+    "!**/.DS_Store",
+    "vendor/manifest.json",
+    "CREDITS.md",
+    "README.es.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test --require ./test/sandbox.js test/*.test.js && sh -c 'HOME=$(mktemp -d) CLAUDE_CONFIG_DIR= && export HOME CLAUDE_CONFIG_DIR && python3 -I -B payload/hooks/tests/test_guard_actions.py && python3 -I -B payload/hooks/tests/test_codex_fallback.py && python3 -I -B test/interactive_test.py'",
+    "credits": "node scripts/gen-credits.js",
+    "prepublishOnly": "npm test"
+  }
+}

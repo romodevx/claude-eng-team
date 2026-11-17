@@ -1,0 +1,5 @@
+# Default owner for everything
+*                    @<github-user>
+/docs/api/           @<github-user>
+/migrations/         @<github-user>
+/.github/            @<github-user>

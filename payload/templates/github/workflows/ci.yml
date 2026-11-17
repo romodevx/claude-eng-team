@@ -1,0 +1,125 @@
+# CI template — standards/delivery.md. Adapt paths (backend/, web/, mobile/) per repo.
+# Minute-saving: narrow triggers, path filters, concurrency cancel, dependency caches,
+# fail-fast ordering, expensive jobs only on PRs to dev/main or nightly.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [dev, main, master]
+    paths-ignore: ["**/*.md", "docs/**", "!docs/api/**"]
+  schedule:
+    - cron: "0 9 * * 1-5"   # nightly-ish: full E2E + scans
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      web: ${{ steps.filter.outputs.web }}
+      mobile: ${{ steps.filter.outputs.mobile }}
+      api: ${{ steps.filter.outputs.api }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend: ["backend/**", "go.mod", "go.sum"]
+            web: ["web/**"]
+            mobile: ["mobile/**"]
+            api: ["docs/api/**"]
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+
+  api-contract:
+    needs: changes
+    if: needs.changes.outputs.api == 'true' || needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx --yes @redocly/cli@latest lint docs/api/openapi.yaml
+
+  backend:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: backend } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version-file: backend/go.mod, cache-dependency-path: backend/go.sum }
+      - uses: golangci/golangci-lint-action@v6
+        with: { working-directory: backend }
+      - run: go vet ./...
+      - run: go test -race -short -coverprofile=cover.out ./...        # unit
+      - run: go test -race -run Integration ./...                      # testcontainers
+        if: github.event_name != 'pull_request' || github.base_ref == 'dev' || github.base_ref == 'main' || github.base_ref == 'master'
+      - run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+      - run: go run github.com/securego/gosec/v2/cmd/gosec@latest ./...
+
+  web:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: web } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: web/.nvmrc, cache: npm, cache-dependency-path: web/package-lock.json }
+      - run: npm ci
+      - run: npm run lint && npm run typecheck
+      - run: npm test -- --coverage
+      - run: npm run build
+      - name: Fail on shipped source maps or secrets
+        run: |
+          if find dist -name '*.map' | grep -q . || grep -rl 'sourceMappingURL' dist; then
+            echo "Source maps found in production artifact"; exit 1; fi
+      - run: npx --yes osv-scanner@latest --lockfile=package-lock.json
+
+  mobile:
+    needs: changes
+    if: needs.changes.outputs.mobile == 'true'
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: mobile } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: mobile/.nvmrc, cache: npm, cache-dependency-path: mobile/package-lock.json }
+      - run: npm ci
+      - run: npm run lint && npm run typecheck && npm test
+      - run: npx expo-doctor
+
+  sast:
+    needs: changes
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: semgrep/semgrep-action@v1
+        with: { config: "p/default p/owasp-top-ten p/golang p/react" }
+
+  e2e:
+    needs: [backend, web]
+    if: >-
+      always() && !failure() && !cancelled() &&
+      (github.event_name == 'schedule' || github.base_ref == 'dev' ||
+       github.base_ref == 'main' || github.base_ref == 'master')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Run Playwright (web) / Maestro (mobile) critical journeys here"

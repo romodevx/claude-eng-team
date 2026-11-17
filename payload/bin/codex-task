@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# codex-task — Claude Code's single entry point for delegating work to Codex.
+# Strategy and when to use each mode: ~/.claude/rules/codex-first.md
+#
+# Usage: codex-task <mode> <effort> [repo-dir] < prompt
+#   mode:   impl | explore | review | docs
+#   effort: low | medium | high | xhigh
+#
+# Exit codes (Claude branches on these):
+#   0  done — read the printed summary, then verify the diff yourself
+#   2  bad usage, or refused (e.g. impl on a protected branch)
+#   3  CODEX_UNAVAILABLE — quota exhausted; Claude continues the task itself
+#   1  Codex failed for another reason — read the tail and decide
+set -uo pipefail
+
+readonly EXIT_FAILED=1 EXIT_USAGE=2 EXIT_UNAVAILABLE=3
+readonly MODEL="${CODEX_TASK_MODEL:-gpt-6-luna}"
+readonly STATE_DIR="$HOME/.codex/task-runs"
+readonly QUOTA_MARKER="$HOME/.codex/.quota-exhausted-until"
+readonly DEFAULT_COOLDOWN_SECONDS=3600
+readonly QUOTA_PATTERN="hit your usage limit|out of credits|spend cap|usage not included|quota exceeded"
+
+die() { echo "codex-task: $2" >&2; exit "$1"; }
+
+mode="${1:-}"; effort="${2:-}"; repo="${3:-$PWD}"
+case "$mode" in impl|explore|review|docs) ;; *) die $EXIT_USAGE "mode must be impl|explore|review|docs";; esac
+case "$effort" in low|medium|high|xhigh) ;; *) die $EXIT_USAGE "effort must be low|medium|high|xhigh";; esac
+[ -d "$repo" ] || die $EXIT_USAGE "no such directory: $repo"
+command -v codex >/dev/null || die $EXIT_UNAVAILABLE "CODEX_UNAVAILABLE: codex CLI not installed"
+
+# Skip the round-trip while a known quota window is still closed.
+if [ -f "$QUOTA_MARKER" ]; then
+  until_epoch="$(cat "$QUOTA_MARKER")"
+  if [ "$(date +%s)" -lt "$until_epoch" ]; then
+    die $EXIT_UNAVAILABLE "CODEX_UNAVAILABLE: quota exhausted until $(date -r "$until_epoch" '+%Y-%m-%d %H:%M')"
+  fi
+  rm -f "$QUOTA_MARKER"
+fi
+
+# Regla 0: writing modes never run on a protected branch.
+if [ "$mode" = impl ] || [ "$mode" = docs ]; then
+  branch="$(git -C "$repo" branch --show-current 2>/dev/null || true)"
+  case "$branch" in dev|main|master) die $EXIT_USAGE "refusing $mode on protected branch '$branch'; create a branch first";; esac
+fi
+
+prompt="$(cat)"
+# review alone may run without a brief: it then uses Codex's built-in reviewer.
+[ -n "$prompt" ] || [ "$mode" = review ] || die $EXIT_USAGE "empty prompt on stdin"
+
+read -r -d '' contract <<'EOF'
+You are executing a task delegated by Claude Code, who planned it and will review your work.
+Follow every rule in your AGENTS.md and the repo's CLAUDE.md (TDD: failing test first; Clean
+Code/Architecture; use the repo's package manager; never edit generated code). Do NOT commit, push, or switch branches.
+Do not run docker, testcontainers or integration suites; Claude runs those.
+Stay inside the task's scope; if something blocks you, stop and say so instead of guessing.
+End with a SHORT report: files changed, tests written and their red->green result,
+commands run with pass/fail, and anything left undone or uncertain.
+EOF
+
+case "$mode" in
+  impl|docs) sandbox=(-s workspace-write) ;;
+  explore)   sandbox=(-s read-only)
+             contract="Read-only exploration delegated by Claude Code. Do not modify files.
+Answer concisely with exact file:line references; no file dumps." ;;
+  review)    sandbox=(-s read-only)
+             contract="Code review delegated by Claude Code. Review ONLY the uncommitted changes
+(git diff HEAD plus untracked files). Do not modify files. Report findings ranked by
+severity with file:line, why it is wrong, and the fix; say plainly if you find nothing." ;;
+esac
+
+mkdir -p "$STATE_DIR"
+run_id="$(date +%Y%m%d-%H%M%S)-$mode"
+events="$STATE_DIR/$run_id.jsonl"
+last="$STATE_DIR/$run_id.last.md"
+
+if [ "$mode" = review ] && [ -z "$prompt" ]; then
+  (cd "$repo" && codex exec review --uncommitted -m "$MODEL" \
+    -c model_reasoning_effort="\"$effort\"" --json -o "$last" </dev/null >"$events" 2>&1)
+  status=$?
+else
+  printf '%s\n\n---\nTASK:\n%s\n' "$contract" "$prompt" | codex exec -C "$repo" "${sandbox[@]}" \
+    -m "$MODEL" -c model_reasoning_effort="\"$effort\"" --json -o "$last" - >"$events" 2>&1
+  status=$?
+fi
+
+if grep -qiE "$QUOTA_PATTERN" "$events"; then
+  reason="$(grep -oiE "You(\x27|’)ve hit[^\"]*|[^\"]*(out of credits|spend cap)[^\"]*" "$events" | head -1)"
+  reset_epoch="$(python3 - "$reason" "$DEFAULT_COOLDOWN_SECONDS" <<'PY'
+import datetime, re, sys
+# Codex prints the reset as "try again at 3:42 PM" (today) or "Oct 16th, 2026 3:42 PM".
+text, fallback = sys.argv[1], int(sys.argv[2])
+now = datetime.datetime.now()
+reset = now + datetime.timedelta(seconds=fallback)
+m = re.search(r"try again at (?:([A-Z][a-z]{2}) (\d{1,2})[a-z]{2}, (\d{4}) )?(\d{1,2}:\d{2} [AP]M)", text)
+if m:
+    clock = datetime.datetime.strptime(m.group(4), "%I:%M %p").time()
+    day = (datetime.datetime.strptime(f"{m.group(1)} {m.group(2)} {m.group(3)}", "%b %d %Y").date()
+           if m.group(1) else now.date())
+    reset = datetime.datetime.combine(day, clock)
+print(int(reset.timestamp()))
+PY
+)"
+  echo "$reset_epoch" >"$QUOTA_MARKER"
+  die $EXIT_UNAVAILABLE "CODEX_UNAVAILABLE: ${reason:-usage limit reached} (log: $events)"
+fi
+
+if [ "$status" -ne 0 ] || [ ! -s "$last" ]; then
+  echo "codex-task: Codex failed (exit $status). Last events:" >&2
+  tail -5 "$events" >&2
+  exit $EXIT_FAILED
+fi
+
+cat "$last"
+if [ "$mode" = impl ] || [ "$mode" = docs ]; then
+  echo; echo "--- git diff --stat (uncommitted) ---"
+  git -C "$repo" status --short
+fi
+echo; echo "(full log: $events)"
