@@ -30,3 +30,17 @@ CI costs a re-push and another full run. So CI runs on the local machine first, 
 - Don't edit the wrapper script while it runs: `sh` reads it as it goes.
 - GitHub CI remains the final word: act doesn't replicate caches, secrets or identical
   runners. The goal is to arrive green on the first try.
+
+## Watching CI runs and deploys (token budget)
+Waiting costs no tokens; every model turn does (it re-reads the whole context), and so does
+every line of command output read.
+- **One blocking watch in the background:** `gh run watch <id> --exit-status` or
+  `gh pr checks <pr> --watch` with `run_in_background`; the session wakes once, when it exits.
+  Never poll with repeated short `gh run view` calls.
+- **No short-interval wakeups.** If a scheduled wakeup is unavoidable, one delay matched to the
+  run's usual duration (one check at ~8 min for an 8-min deploy), not one per minute.
+- **Read the summary, not the logs:** `gh run view <id> --json conclusion,status,jobs`. Only on
+  failure: `gh run view <id> --log-failed | tail -n 200`, scoped to the failed job.
+- **Long watches go to a subagent** that returns only the verdict (conclusion, failed
+  job/step, relevant error lines).
+- Report the result in one line: run id, conclusion, duration, link.

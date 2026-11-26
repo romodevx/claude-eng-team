@@ -8,7 +8,7 @@
   codex-fallback.py sessionstart  (SessionStart hook)
       If Codex worked while Claude was away, tell Claude to review it first.
 
-Policy: ~/.claude/rules/codex-first.md ("Relevo automático"). Opt-out: CLAUDE_CODEX_FALLBACK=off.
+Policy: ~/.claude/standards/codex.md ("Relevo automático"). Opt-out: CLAUDE_CODEX_FALLBACK=off.
 """
 import datetime
 import json

@@ -4,7 +4,7 @@
 
 **Un equipo de ingeniería completo para [Claude Code](https://code.claude.com/docs/en/overview), en un solo comando.**
 
-16 agentes por rol · aprobaciones que se cumplen · TDD · ADRs · threat models · flujo story → dev → prod
+17 agentes por rol · aprobaciones que se cumplen · TDD · ADRs · threat models · flujo story → dev → prod
 
 [![npm](https://img.shields.io/npm/v/claude-eng-team)](https://www.npmjs.com/package/claude-eng-team)
 [![ci](https://github.com/romodevx/claude-eng-team/actions/workflows/ci.yml/badge.svg)](https://github.com/romodevx/claude-eng-team/actions/workflows/ci.yml)
@@ -176,19 +176,21 @@ Cambia el modo de un proyecto diciéndolo ("cambia a automático") o con:
 
 ## Qué incluye
 
-**16 agentes** (`~/.claude/agents/`):
+**17 agentes** (`~/.claude/agents/`):
 
 | Producto y entrega | Arquitectura y código | Calidad, operación y seguridad |
 |---|---|---|
-| product-owner · pm · scrum-master · project-manager · eng-manager | architect · tech-lead · backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr | qa-sr · code-reviewer · security · devops-sr (SRE) · doc-writer |
+| product-owner · pm · scrum-master · project-manager · eng-manager | architect · tech-lead · backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr | qa-sr · code-reviewer · subtask-reviewer · security · devops-sr (SRE) · doc-writer |
 
-**15 reglas** (`~/.claude/rules/`): 12 siempre cargadas (unos 18 KB; 11 y unos 15 KB sin Codex)
-y las de Go, frontend y formularios, que solo se cargan al tocar esos archivos. Canon de ingeniería, pruebas, datos,
-APIs, seguridad, documentación, flujo de git, flujo de módulos, feature flags, CI local y QA.
+**11 reglas** (`~/.claude/rules/`): 8 siempre cargadas (unos 10 KB; 7 y unos 8 KB sin Codex)
+y las de Go, frontend y formularios, que solo se cargan al tocar esos archivos. Canon de ingeniería y documentación,
+pruebas, datos, APIs, seguridad, flujo de git con revisiones por niveles, presupuesto de contexto y Codex. Un test
+mantiene las reglas siempre cargadas por debajo de 13 KB.
 
-**12 estándares** (`~/.claude/standards/`), que se leen solo cuando el trabajo los necesita:
+**18 estándares** (`~/.claude/standards/`), que se leen solo cuando el trabajo los necesita:
 resiliencia, datos, APIs, pruebas, seguridad + checklist OWASP ASVS 5.0, presupuestos de
-rendimiento web y móvil, observabilidad, entrega y respuesta a incidentes.
+rendimiento web y móvil, observabilidad, entrega, respuesta a incidentes, flujo de módulos,
+feature flags, CI local y monitoreo de CI, QA en navegador, protocolo de Codex y niveles de revisión.
 
 **19 comandos** (`~/.claude/skills/`):
 

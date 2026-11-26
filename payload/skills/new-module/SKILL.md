@@ -9,7 +9,7 @@ description: >
 
 # /new-module — Module Cycle (an epic delivered with /story)
 
-Order (rules/module-workflow.md), each step announced with agent + skill + why:
+Order (standards/module-workflow.md), each step announced with agent + skill + why:
 1. **Spec** — @product-owner: stories + acceptance criteria; flag key `module_<name>`.
 2. **Threat model** — @security if user data/auth/payments.
 3. **Contract** — @architect: extend `docs/api/openapi.yaml` (versioned, cursor pagination,

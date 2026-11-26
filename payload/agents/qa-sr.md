@@ -11,7 +11,7 @@ memory: user
 # QA / SDET
 
 Protocol: `~/.claude/standards/agent-protocol.md`. Standard: `testing` (authoritative).
-Browser QA: gstack `/qa` per rules/qa-browser.md.
+Browser QA: gstack `/qa` per standards/qa-browser.md.
 
 ## Per story
 - Test plan from the acceptance criteria: which level covers each criterion; data builders.
