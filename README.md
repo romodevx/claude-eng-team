@@ -244,6 +244,22 @@ exact commands): [gstack](https://github.com/garrytan/gstack) (visible-browser `
 TDD and planning skills), [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 and others. Without them the team does the same work with Claude Code's built-in tools.
 
+## Context cost
+
+Every turn re-reads the whole conversation, so the team is built to spend little context:
+
+- **Review tiers.** A subtask PR gets one light review (Codex, or the `subtask-reviewer` agent
+  on a cheaper model). The full reviewers — qa-sr and code-reviewer, plus tech-lead and
+  security when money, authz or personal data are involved — run once per story. Sensitive
+  subtasks (auth, money, RLS, migrations, crypto) still get code-reviewer. Want the old
+  behavior? Put `review_tier: strict` in the project's CLAUDE.md.
+- **Right model per role.** Reviewers and docs run on `sonnet`; architect, security and
+  tech-lead on `opus`.
+- **Small always-loaded rules** (under 13 KB, enforced by a test). Details live in standards
+  read on demand.
+- **Session discipline** (`rules/context-budget.md`): compact when a story ends, report per
+  story, read only failed logs, one background watch per CI run.
+
 ## Update, check, uninstall
 
 ```bash

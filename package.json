@@ -1,6 +1,6 @@
 {
   "name": "claude-eng-team",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A full engineering team for Claude Code: 17 role agents, enforced approvals, TDD, ADRs, threat models and a story → dev → prod git flow. One command to install, one to undo.",
   "keywords": [
     "claude",
