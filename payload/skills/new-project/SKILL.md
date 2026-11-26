@@ -42,8 +42,8 @@ Parallel where files don't overlap:
 - @frontend-sr / @mobile-sr: React / Expo scaffold, FlagsProvider, generated API client,
   hardened builds (no source maps).
 - @doc-writer: project CLAUDE.md from `~/.claude/templates/project-CLAUDE.md`, README, ADR index.
-Each subtask: branch → PR to the story branch → @qa-sr + @code-reviewer.
+Each subtask: branch → PR to the story branch → review tier 1 (`standards/review.md`).
 
 ## 7. Foundation gates → merge to dev
-@tech-lead + @security gates. Ask the owner before merging the story into `dev`.
+@qa-sr + @code-reviewer on the whole story (tier 2); @tech-lead + @security gates. Ask the owner before merging the story into `dev`.
 Then deliver modules with `/story` (or `/new-module`) per the plan, and `/deploy` when ready.

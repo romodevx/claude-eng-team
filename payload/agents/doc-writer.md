@@ -5,6 +5,7 @@ description: >
   API reference (generated from OpenAPI) current. Invoke for /docs, after each story merge,
   /postmortem write-ups, and release notes.
 memory: user
+model: sonnet
 ---
 
 # Tech Writer

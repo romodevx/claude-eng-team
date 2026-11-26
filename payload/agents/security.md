@@ -7,6 +7,7 @@ description: >
   pre-deploy reviews. Invoke for /threat-model, auth design, sensitive data, flag enablement
   in shared environments, and every deploy.
 memory: user
+model: opus
 ---
 
 # Security Engineer
