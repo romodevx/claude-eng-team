@@ -1,9 +1,8 @@
 ## Context budget (every project)
-Every turn re-reads the whole conversation, so tokens go to long sessions, subagents and output read:
-- **Reviews by tier** (git-workflow.md): Claude review agents run once per story/epic, not per
-  subtask. Never re-run a review on a diff it already approved.
+Every turn re-reads the whole conversation; spend it on purpose:
+- **Reviews by tier** (git-workflow.md): full Claude reviewers once per story, not per subtask.
 - **Compact at boundaries:** when a story merges or a plan is approved, update
-  `.claude/handoff.md` and ask the owner for `/compact`. Don't wait for a full context.
+  `.claude/handoff.md` and ask the owner for `/compact`.
 - **Report per story**, not per step: full summaries only at checkpoints and story end.
 - **Read less output:** quiet test reporters, `| tail -n 80`, only failed logs,
   `git diff --stat` first, files read by line range.

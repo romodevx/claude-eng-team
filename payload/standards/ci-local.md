@@ -1,11 +1,10 @@
-
 ## Local CI before every PR (every project)
 
 GitHub Actions minutes are finite (e.g. 2,000 min/month on GitHub Free). A PR that breaks in
 CI costs a re-push and another full run. So CI runs on the local machine first, for free.
 
 ### When
-- After code review (code-reviewer) and QA (qa-sr), and **before** opening a PR or marking it
+- After the review that `standards/review.md` requires for that PR, and **before** opening a PR or marking it
   ready for review. Also before a direct push that will trigger CI.
 - Iterate on a PR as a **draft**: in repos configured that way, drafts don't run CI on GitHub.
   Mark it ready only with local CI green.
