@@ -21,6 +21,8 @@ Less context spent per session, same gates. Upgrading: run `npx claude-eng-team`
   `~/.claude/standards/` and are read on demand; documentation folded into the canon. The
   upgrade removes the old rule files it installed.
 - Agents answer in ≤ 30 lines and keep full reports in `.claude/reviews/`.
+- `/compact` moves from "above 80% context" to every story boundary, after `.claude/handoff.md`
+  is updated. The 200-line agent-memory limit now lives in `standards/agent-protocol.md`.
 
 ### Added
 - `rules/context-budget.md`: compact at story boundaries, report per story, read less output,

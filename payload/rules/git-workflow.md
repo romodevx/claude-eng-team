@@ -14,7 +14,7 @@
 
 ### PR flow and review tiers
 1. Subtask → PR into the umbrella: tests and local CI green + **one light review**
-   (<!-- codex -->`codex-task review` with a risk brief; without Codex, <!-- /codex -->the `subtask-reviewer` agent). Squash merge, no owner
+   (<!-- codex -->`codex-task review` with a risk brief; without Codex or out of quota, <!-- /codex -->the `subtask-reviewer` agent). Squash merge, no owner
    confirmation. Subtasks touching auth/authz, money, RLS, migrations or crypto also get
    @code-reviewer.
 2. Umbrella → `dev`: the full gates, once — @qa-sr + @code-reviewer (+ @tech-lead/@security
@@ -30,3 +30,4 @@
   atomic, signed commits; SemVer. CODEOWNERS + branch protection on protected branches.
 
 - Closing: back to `dev` and pull; `git-prune-merged` dry run → owner confirms → `--apply`.
+  A branch with work not in a protected branch is never deleted without asking.

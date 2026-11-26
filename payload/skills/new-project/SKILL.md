@@ -42,7 +42,7 @@ Parallel where files don't overlap:
 - @frontend-sr / @mobile-sr: React / Expo scaffold, FlagsProvider, generated API client,
   hardened builds (no source maps).
 - @doc-writer: project CLAUDE.md from `~/.claude/templates/project-CLAUDE.md`, README, ADR index.
-Each subtask: branch → PR to the story branch → review tier 1 (`standards/review.md`).
+Each subtask: branch → PR to the story branch → review tier 1 (`standards/review.md`). If the project's CLAUDE.md says `review_tier: strict`, @qa-sr + @code-reviewer review every subtask PR instead.
 
 ## 7. Foundation gates → merge to dev
 @qa-sr + @code-reviewer on the whole story (tier 2); @tech-lead + @security gates. Ask the owner before merging the story into `dev`.

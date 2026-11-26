@@ -24,7 +24,7 @@ proposal for the owner — never fold it in.
   This is the contract the redesign must keep.
 - Check which existing tests cover those behaviors. Add **characterization tests** for
   any uncovered behavior now, green against the CURRENT UI, before any redesign
-  (rules/tdd.md). They must keep passing at the end.
+  (rules/testing.md). They must keep passing at the end.
 
 ## 1. Diagnose — no code
 - Run `/design-review` on the live screen in report mode (findings, no fixes yet).
@@ -51,7 +51,7 @@ proposal for the owner — never fold it in.
 ## 4. Build
 - Behind a feature flag (standards/feature-flags.md) so old and new can be compared;
   flag default OFF. Old screen stays intact until the owner retires it.
-- TDD: failing component test first for each new piece (rules/tdd.md). Reuse existing
+- TDD: failing component test first for each new piece (rules/testing.md). Reuse existing
   handlers/hooks/API clients — the new UI calls exactly what the old one called.
 - Copy: pass all new user-facing text through `humanizer`; keep the app's language.
 - Motion: `find-animation-opportunities` to decide what (little) should move; build it

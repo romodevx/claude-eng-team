@@ -32,7 +32,8 @@ test('no skill runs the full Claude reviewers on every subtask PR', () => {
   for (const skill of fs.readdirSync(path.join(PAYLOAD, 'skills'))) {
     const file = path.join('skills', skill, 'SKILL.md');
     if (!fs.existsSync(path.join(PAYLOAD, file))) continue;
-    assert.doesNotMatch(read(file), perSubtask, file);
+    const lines = read(file).split('\n').filter((l) => !l.includes('review_tier: strict')); // opt-in
+    assert.doesNotMatch(lines.join('\n'), perSubtask, file);
   }
 });
 
@@ -40,4 +41,13 @@ test('reviewers answer briefly and keep the detail in a file', () => {
   const protocol = read('standards/agent-protocol.md');
   assert.match(protocol, /≤ 30 lines/);
   assert.match(protocol, /\.claude\/reviews\//);
+});
+
+test('the light reviewer is wired everywhere the tiers are described', () => {
+  for (const file of ['standards/review.md', 'rules/git-workflow.md', 'skills/story/SKILL.md', 'USAGE.md']) {
+    assert.match(read(file), /subtask-reviewer/, file);
+  }
+  for (const skill of ['story', 'new-project', 'new-module', 'refactor']) {
+    assert.match(read(`skills/${skill}/SKILL.md`), /review_tier: strict/, `${skill} honours strict mode`);
+  }
 });

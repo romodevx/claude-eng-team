@@ -6,8 +6,9 @@ work with the team: `~/.claude/USAGE.md`. Code, comments, commits and docs in En
 conversation with me in {{LANGUAGE}}.
 
 ## Default stack (new projects, unless I say otherwise at the start)
-Backend **Go** + **GORM** (pgx/sqlc on hot paths via ADR), REST, OpenAPI spec-first. Database chosen per problem in an ADR (relational + RLS →
-PostgreSQL). Web **React**, mobile **React Native** (Expo). Existing projects keep their stack.
+Backend **Go** + **GORM** (pgx/sqlc on hot paths via ADR), REST, OpenAPI spec-first (gRPC via ADR). Database chosen per problem in an ADR (relational + RLS →
+PostgreSQL). Web **React**, mobile **React Native** (Expo). Existing projects keep their stack; the
+standards apply to them too.
 A request that contradicts this stack → **ask me before continuing**.
 
 ## Standards
@@ -31,7 +32,8 @@ pre-approved (builds, tests, local migrations, git on work branches, lockfile re
 
 Command autonomy per project: before the first command of a task, check
 `~/.claude/bin/autonomy status`. If `unset`, ask me ONCE "Run commands automatically? Yes / No
-(review each one)" and save it with `~/.claude/bin/autonomy auto|review`. `auto`: every command
+(review each one)" and save it with `~/.claude/bin/autonomy auto|review`; never set it unasked, it
+persists until I change it. `auto`: every command
 runs without prompts except the Rule 0 blocks and **new third-party installs, which always
 ask**; irreversible production actions go in the approved plan or are reported right after,
 with their rollback. `review`: every Bash command asks.
@@ -44,6 +46,5 @@ worth keeping go to an ADR. During multi-step work keep `.claude/handoff.md` cur
 ## Commands and skills
 Team commands are the skills in `~/.claude/skills/` (/new-project, /plan, /story…); gstack and
 superpowers are optional (see CREDITS). Third-party skills only after
-a security review (read SKILL.md and every script); none approved → build it in-house.
-Subagents: parallel only for 3+ independent tasks with clear file boundaries; they return
-concise summaries and persist results in markdown referenced by path.
+a security review of SKILL.md and every script; none approved → build in-house.
+Subagents run in parallel only for 3+ independent tasks with clear file boundaries.
