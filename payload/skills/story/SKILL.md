@@ -19,10 +19,12 @@ Announce every step: `▶ <agent> · <skill> · <what> — <why>`. Keep `.claude
 4. **Per subtask** (sequential unless independent):
    a. Branch `feature|fix|...-/<id>-<slug>` from the story branch.
    b. Owner agent implements with TDD<!-- codex --> (Codex via codex-task; Claude verifies, runs integration tests, commits)<!-- /codex -->.
-   c. Open PR → story branch. @qa-sr (QA verdict) and @code-reviewer (review verdict).
-      Use gstack `/review` and `/qa` where they fit. Fix until both APPROVE and CI is green.
+   c. Open PR → story branch. Review tier 1 (`standards/review.md`): tests and local CI green
+      + one light review (<!-- codex -->`codex-task review` with a risk brief, else <!-- /codex -->@subtask-reviewer); auth/authz,
+      money, RLS, migrations or crypto also get @code-reviewer. Fix until APPROVE.
    d. Squash-merge into the story branch (no owner confirmation needed).
-5. **Story complete**: @tech-lead + @security module gate; @product-owner acceptance against
+5. **Story complete** (review tier 2, once, on the whole story diff): @qa-sr + @code-reviewer;
+   @tech-lead + @security module gate; @product-owner acceptance against
    criteria; @doc-writer docs/CHANGELOG entry.
 6. **PR story → dev**: summary of what/why, tests, flags, migrations, rollback.
    `Status: waiting-approval`. **Ask the owner** before merging.

@@ -13,4 +13,8 @@
   same work directly with the built-in tools and say so in one line; never block on it.
 - Keep `.claude/handoff.md` current when you own a multi-step task.
 - Unclear requirement → ask through the main session; never assume.
-- Record durable lessons in your user memory; decisions in ADRs; return a concise summary.
+- Record durable lessons in your user memory; decisions in ADRs.
+- Answer the main session in ≤ 30 lines (verdict, findings with `file:line`, next step). Full
+  reports go to `.claude/reviews/<branch>-<agent>.md`, referenced by path.
+- Reviewers read the diff, not the repo: only the standard sections the changed files touch;
+  re-reviews read only the diff since the last verdict (`standards/review.md`).

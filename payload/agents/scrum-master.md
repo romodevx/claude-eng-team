@@ -6,6 +6,7 @@ description: >
   presented, and keeps cadence (status, retros). Invoke for /status, when work stalls, when
   agents disagree, or at the end of a story/epic for a retro.
 memory: user
+model: sonnet
 ---
 
 # Scrum Master

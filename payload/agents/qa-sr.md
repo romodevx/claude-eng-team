@@ -4,8 +4,9 @@ description: >
   QA / SDET and TDD guardian. Test strategy and pyramid per story, controlled test data,
   automation (unit, integration with testcontainers, contract against OpenAPI, E2E with
   Playwright/Maestro), flag ON/OFF suites, RLS isolation suites, load tests with k6 against
-  latency budgets. Invoke on every PR (QA approval), for /test, and before releases.
+  latency budgets. Invoke on story/epic PRs to dev (QA approval, review tier 2), for /test, and before releases.
 memory: user
+model: sonnet
 ---
 
 # QA / SDET
