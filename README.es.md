@@ -4,7 +4,7 @@
 
 **Un equipo de ingeniería completo para [Claude Code](https://code.claude.com/docs/en/overview), en un solo comando.**
 
-16 agentes por rol · aprobaciones que se cumplen · TDD · ADRs · threat models · flujo story → dev → prod
+17 agentes por rol · aprobaciones que se cumplen · TDD · ADRs · threat models · flujo story → dev → prod
 
 [![npm](https://img.shields.io/npm/v/claude-eng-team)](https://www.npmjs.com/package/claude-eng-team)
 [![ci](https://github.com/romodevx/claude-eng-team/actions/workflows/ci.yml/badge.svg)](https://github.com/romodevx/claude-eng-team/actions/workflows/ci.yml)
@@ -176,19 +176,21 @@ Cambia el modo de un proyecto diciéndolo ("cambia a automático") o con:
 
 ## Qué incluye
 
-**16 agentes** (`~/.claude/agents/`):
+**17 agentes** (`~/.claude/agents/`):
 
 | Producto y entrega | Arquitectura y código | Calidad, operación y seguridad |
 |---|---|---|
-| product-owner · pm · scrum-master · project-manager · eng-manager | architect · tech-lead · backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr | qa-sr · code-reviewer · security · devops-sr (SRE) · doc-writer |
+| product-owner · pm · scrum-master · project-manager · eng-manager | architect · tech-lead · backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr | qa-sr · code-reviewer · subtask-reviewer · security · devops-sr (SRE) · doc-writer |
 
-**15 reglas** (`~/.claude/rules/`): 12 siempre cargadas (unos 18 KB; 11 y unos 15 KB sin Codex)
-y las de Go, frontend y formularios, que solo se cargan al tocar esos archivos. Canon de ingeniería, pruebas, datos,
-APIs, seguridad, documentación, flujo de git, flujo de módulos, feature flags, CI local y QA.
+**11 reglas** (`~/.claude/rules/`): 8 siempre cargadas (unos 10 KB; 7 y unos 8 KB sin Codex)
+y las de Go, frontend y formularios, que solo se cargan al tocar esos archivos. Canon de ingeniería y documentación,
+pruebas, datos, APIs, seguridad, flujo de git con revisiones por niveles, presupuesto de contexto y Codex. Un test
+mantiene las reglas siempre cargadas por debajo de 13 KB.
 
-**12 estándares** (`~/.claude/standards/`), que se leen solo cuando el trabajo los necesita:
+**18 estándares** (`~/.claude/standards/`), que se leen solo cuando el trabajo los necesita:
 resiliencia, datos, APIs, pruebas, seguridad + checklist OWASP ASVS 5.0, presupuestos de
-rendimiento web y móvil, observabilidad, entrega y respuesta a incidentes.
+rendimiento web y móvil, observabilidad, entrega, respuesta a incidentes, flujo de módulos,
+feature flags, CI local y monitoreo de CI, QA en navegador, protocolo de Codex y niveles de revisión.
 
 **19 comandos** (`~/.claude/skills/`):
 
@@ -243,6 +245,25 @@ exactos): [gstack](https://github.com/garrytan/gstack) (`/qa` con navegador visi
 `/review`, `/ship`, `/cso`), [superpowers](https://github.com/obra/superpowers) (skills de
 depuración, TDD y planes), [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 y otros. Sin ellos, el equipo hace el mismo trabajo con las herramientas integradas de Claude Code.
+
+## Costo de contexto
+
+Cada turno vuelve a leer toda la conversación, así que el equipo está hecho para gastar poco
+contexto:
+
+- **Revisiones por niveles.** Un PR de subtarea lleva una revisión ligera (Codex, o el agente
+  `subtask-reviewer` con un modelo más barato). Los revisores completos — qa-sr y
+  code-reviewer, más tech-lead y security si hay dinero, autorización o datos personales — corren
+  una vez por historia. Las subtareas sensibles (auth, dinero, RLS, migraciones, cripto) siguen
+  pasando por code-reviewer. ¿Quieres el comportamiento anterior? Pon `review_tier: strict` en
+  el CLAUDE.md del proyecto.
+- **El modelo adecuado por rol.** Revisores y docs usan `sonnet`; architect, security y
+  tech-lead usan `opus`.
+- **Reglas fijas chicas** (menos de 13 KB, lo vigila un test). El detalle vive en estándares
+  que se leen cuando hacen falta.
+- **Disciplina de sesión** (`rules/context-budget.md`): compactar al terminar cada historia,
+  reportar por historia, leer solo los logs que fallaron, una sola espera en segundo plano por
+  corrida de CI.
 
 ## Actualizar, revisar, desinstalar
 

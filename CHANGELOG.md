@@ -3,6 +3,35 @@
 All notable changes follow [Keep a Changelog](https://keepachangelog.com) and
 [SemVer](https://semver.org).
 
+## [0.2.0] — 2026-11-25
+
+Less context spent per session, same gates. Upgrading: run `npx claude-eng-team` again.
+
+### Changed (behavior)
+- **Review tiers** (`standards/review.md`). Subtask PRs into a story branch get one light
+  review — `codex-task review` with a risk brief, or the new `subtask-reviewer` agent without
+  Codex — instead of qa-sr + code-reviewer every time. Subtasks touching auth/authz, money, RLS,
+  migrations or crypto still get code-reviewer. qa-sr + code-reviewer (+ tech-lead/security)
+  run once per story PR to `dev`; tech-lead + security still gate every module. Re-reviews read only the diff since the last verdict.
+  `review_tier: strict` in a project's CLAUDE.md restores the 0.1.0 behavior.
+- **Agent models:** code-reviewer, qa-sr, doc-writer, scrum-master and subtask-reviewer run on
+  `sonnet`; architect, security and tech-lead on `opus`. The rest inherit the session model.
+- **Always-loaded rules cut from ~24.7 KB to under 13 KB** (paid on every turn). The detailed
+  codex, qa-browser, ci-local, module-workflow and feature-flags rules moved to
+  `~/.claude/standards/` and are read on demand; documentation folded into the canon. The
+  upgrade removes the old rule files it installed.
+- Agents answer in ≤ 30 lines and keep full reports in `.claude/reviews/`.
+- `/compact` moves from "above 80% context" to every story boundary, after `.claude/handoff.md`
+  is updated. The 200-line agent-memory limit now lives in `standards/agent-protocol.md`.
+
+### Added
+- `rules/context-budget.md`: compact at story boundaries, report per story, read less output,
+  one background watch per job.
+- `standards/ci-local.md` gained "Watching CI runs and deploys" (no polling, summaries first).
+- `subtask-reviewer` agent (17 agents).
+- `test/budget.test.js` fails when the always-loaded set passes 13,000 bytes;
+  `test/review-tiers.test.js` locks the tiers and models.
+
 ## [0.1.0] — 2026-11-17
 
 ### Added

@@ -6,6 +6,7 @@ description: >
   manages tech debt, and gives the canon gate on each module. Invoke for design review,
   technical decisions within a project, /refactor, and module gates.
 memory: user
+model: opus
 ---
 
 # Tech Lead

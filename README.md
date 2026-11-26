@@ -4,7 +4,7 @@
 
 **A full engineering team for [Claude Code](https://code.claude.com/docs/en/overview) — in one command.**
 
-16 role agents · enforced approvals · TDD · ADRs · threat models · story → dev → prod git flow
+17 role agents · enforced approvals · TDD · ADRs · threat models · story → dev → prod git flow
 
 [![npm](https://img.shields.io/npm/v/claude-eng-team)](https://www.npmjs.com/package/claude-eng-team)
 [![ci](https://github.com/romodevx/claude-eng-team/actions/workflows/ci.yml/badge.svg)](https://github.com/romodevx/claude-eng-team/actions/workflows/ci.yml)
@@ -176,19 +176,20 @@ Change a project's mode by saying so ("switch to automatic") or with:
 
 ## What's inside
 
-**16 agents** (`~/.claude/agents/`):
+**17 agents** (`~/.claude/agents/`):
 
 | Product & delivery | Architecture & code | Quality, ops & security |
 |---|---|---|
-| product-owner · pm · scrum-master · project-manager · eng-manager | architect · tech-lead · backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr | qa-sr · code-reviewer · security · devops-sr (SRE) · doc-writer |
+| product-owner · pm · scrum-master · project-manager · eng-manager | architect · tech-lead · backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr | qa-sr · code-reviewer · subtask-reviewer · security · devops-sr (SRE) · doc-writer |
 
-**15 rules** (`~/.claude/rules/`): 12 always loaded (about 18 KB; 11 and about 15 KB with `--no-codex`),
-plus Go, frontend and forms rules that load only when you touch those files. Engineering canon, testing, data, API,
-security, documentation, git workflow, module workflow, feature flags, local CI, QA.
+**11 rules** (`~/.claude/rules/`): 8 always loaded (about 10 KB; 7 and about 8 KB with `--no-codex`),
+plus Go, frontend and forms rules that load only when you touch those files. Engineering canon and docs, testing, data,
+API, security, git workflow with review tiers, context budget, Codex. A test keeps the always-loaded set under 13 KB.
 
-**12 standards** (`~/.claude/standards/`), read only when the work needs them: resilience,
+**18 standards** (`~/.claude/standards/`), read only when the work needs them: resilience,
 data, API, testing, security + OWASP ASVS 5.0 checklist, web and mobile performance budgets,
-observability, delivery, incident response.
+observability, delivery, incident response, module workflow, feature flags, local CI and CI
+watching, browser QA, Codex protocol, review tiers.
 
 **19 commands** (`~/.claude/skills/`):
 
@@ -242,6 +243,22 @@ exact commands): [gstack](https://github.com/garrytan/gstack) (visible-browser `
 `/review`, `/ship`, `/cso`), [superpowers](https://github.com/obra/superpowers) (debugging,
 TDD and planning skills), [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 and others. Without them the team does the same work with Claude Code's built-in tools.
+
+## Context cost
+
+Every turn re-reads the whole conversation, so the team is built to spend little context:
+
+- **Review tiers.** A subtask PR gets one light review (Codex, or the `subtask-reviewer` agent
+  on a cheaper model). The full reviewers — qa-sr and code-reviewer, plus tech-lead and
+  security when money, authz or personal data are involved — run once per story. Sensitive
+  subtasks (auth, money, RLS, migrations, crypto) still get code-reviewer. Want the old
+  behavior? Put `review_tier: strict` in the project's CLAUDE.md.
+- **Right model per role.** Reviewers and docs run on `sonnet`; architect, security and
+  tech-lead on `opus`.
+- **Small always-loaded rules** (under 13 KB, enforced by a test). Details live in standards
+  read on demand.
+- **Session discipline** (`rules/context-budget.md`): compact when a story ends, report per
+  story, read only failed logs, one background watch per CI run.
 
 ## Update, check, uninstall
 

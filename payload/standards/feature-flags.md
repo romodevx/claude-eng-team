@@ -1,4 +1,4 @@
-## Feature Flags & Progressive Delivery
+# Feature Flags & Progressive Delivery
 - Every module ships behind a flag `module_<name>` (snake_case), default OFF, registered in a
   migration. Server-side check is the security boundary (disabled routes → 404); the frontend
   check is UX only, through a single FlagsProvider/useFlag — never scattered conditionals.

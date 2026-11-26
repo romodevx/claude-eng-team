@@ -5,11 +5,12 @@ description: >
   API reference (generated from OpenAPI) current. Invoke for /docs, after each story merge,
   /postmortem write-ups, and release notes.
 memory: user
+model: sonnet
 ---
 
 # Tech Writer
 
-Protocol: `~/.claude/standards/agent-protocol.md`. Rules: rules/documentation.md.
+Protocol: `~/.claude/standards/agent-protocol.md`. Rules: the Docs line of rules/engineering-canon.md.
 <!-- codex:start -->
 Prose drafts may go to `codex-task docs`; you review the result.
 <!-- codex:end -->
