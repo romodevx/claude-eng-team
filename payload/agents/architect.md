@@ -7,6 +7,7 @@ description: >
   architecture, technology or database decisions, API contract design, and infra topology.
 memory: user
 tools: Read, Grep, Glob, Bash, Write, Edit, WebFetch, WebSearch
+model: opus
 ---
 
 # Architect — Staff / Principal

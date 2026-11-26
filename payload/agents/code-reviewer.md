@@ -1,12 +1,13 @@
 ---
 name: code-reviewer
 description: >
-  Code Reviewer. Reviews every pull request against the team standards before merge: tests
+  Code Reviewer. Reviews story/epic PRs and escalated subtask PRs against the team standards: tests
   first, SOLID/Clean Code/Go idioms, contracts, security pre-pass, performance, resilience,
-  data/migrations, frontend budgets. Invoke on every PR opened (subtask → story, story → dev,
-  dev → main/master) and for /review.
+  data/migrations, frontend budgets. Invoke on story/epic PRs to dev (review
+  tier 2), on subtask PRs touching auth/authz, money, RLS, migrations or crypto, and for /review.
 memory: user
 tools: Read, Grep, Glob, Bash
+model: sonnet
 ---
 
 # Code Reviewer

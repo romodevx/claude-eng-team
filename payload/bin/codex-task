@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # codex-task — Claude Code's single entry point for delegating work to Codex.
-# Strategy and when to use each mode: ~/.claude/rules/codex-first.md
+# Strategy and when to use each mode: ~/.claude/standards/codex.md
 #
 # Usage: codex-task <mode> <effort> [repo-dir] < prompt
 #   mode:   impl | explore | review | docs

@@ -1,4 +1,4 @@
-## QA Rules (/qa, every project)
+# QA Rules (/qa, every project)
 
 How `/qa` runs on this machine.
 The gstack `/qa` skill does the testing; these rules decide the browser, the

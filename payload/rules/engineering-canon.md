@@ -11,5 +11,7 @@
 - Scale-out by default: stateless services, state externalized, idempotent writes.
   Resilience, caching and rate limits per `~/.claude/standards/resilience.md`.
 - Configuration per 12-factor: everything from the environment, nothing hardcoded.
-- Every significant decision → ADR (`docs/adr/NNNN-title.md`). Contracts before implementation.
+- Contracts before implementation. Docs: ADR per significant decision (`docs/adr/NNNN-title.md`),
+  runbook per service, postmortem per incident, API reference generated from OpenAPI, README +
+  CHANGELOG per release, public functions documented. Stale docs are bugs.
 - Professional conduct: honest estimates, no untested commitments, say no to impossible scope.

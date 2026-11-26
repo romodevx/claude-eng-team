@@ -9,7 +9,7 @@ description: >
 
 # /new-module — Module Cycle (an epic delivered with /story)
 
-Order (rules/module-workflow.md), each step announced with agent + skill + why:
+Order (standards/module-workflow.md), each step announced with agent + skill + why:
 1. **Spec** — @product-owner: stories + acceptance criteria; flag key `module_<name>`.
 2. **Threat model** — @security if user data/auth/payments.
 3. **Contract** — @architect: extend `docs/api/openapi.yaml` (versioned, cursor pagination,
@@ -20,7 +20,9 @@ Order (rules/module-workflow.md), each step announced with agent + skill + why:
    may start from the OpenAPI mock after step 3.
 7. **Flag** — registered OFF in a migration; percentage rollout configured.
 8. **QA** — @qa-sr: pyramid, flag ON/OFF, RLS, load budgets for critical endpoints.
-9. **Gates** — @code-reviewer on every PR; @tech-lead ∥ @security module gate.
+9. **Gates** — tier 1 on each subtask PR, @code-reviewer on the story PR (`standards/review.md`;
+   `review_tier: strict` → both reviewers on every subtask PR);
+   @tech-lead ∥ @security module gate.
 10. **Docs** — @doc-writer.
 Steps 3–10 run as `/story` deliveries (story branch, subtask PRs, PR to dev with owner's yes).
 On any gate failure, loop back to the owning step.
