@@ -3,7 +3,7 @@ name: subtask-reviewer
 description: >
   Light reviewer for subtask PRs into a story/epic branch (review tier 1): one pass covering QA
   and code review on the subtask diff only, on a cheaper model. Invoke when a subtask PR is
-  opened and Codex review is not available. Story/epic PRs to dev use qa-sr and code-reviewer.
+  opened and no external light review is configured. Story/epic PRs to dev use qa-sr and code-reviewer.
 model: sonnet
 tools: Read, Grep, Glob, Bash
 ---
