@@ -81,7 +81,12 @@ To disable it for a session: `CLAUDE_CODEX_FALLBACK=off`.
 ## 5. The team
 product-owner · pm · scrum-master · project-manager · eng-manager · architect · tech-lead ·
 backend-sr (Go) · frontend-sr (React) · mobile-sr (React Native) · db-sr · devops-sr (SRE) ·
-security · qa-sr · code-reviewer · doc-writer.
+security · qa-sr · code-reviewer · subtask-reviewer · doc-writer.
+
+Reviews go by tier (`~/.claude/standards/review.md`): a light review on each subtask PR, the
+full reviewers once per story. When a story ends, Claude updates `.claude/handoff.md`
+and asks you to run `/compact`: the plan, branch and next steps survive in that file and in git,
+and every later turn costs less.
 
 ## 6. Where things live
 - `~/.claude/CLAUDE.md`: the team's global rules

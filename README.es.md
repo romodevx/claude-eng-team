@@ -246,6 +246,25 @@ exactos): [gstack](https://github.com/garrytan/gstack) (`/qa` con navegador visi
 depuración, TDD y planes), [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 y otros. Sin ellos, el equipo hace el mismo trabajo con las herramientas integradas de Claude Code.
 
+## Costo de contexto
+
+Cada turno vuelve a leer toda la conversación, así que el equipo está hecho para gastar poco
+contexto:
+
+- **Revisiones por niveles.** Un PR de subtarea lleva una revisión ligera (Codex, o el agente
+  `subtask-reviewer` con un modelo más barato). Los revisores completos — qa-sr y
+  code-reviewer, más tech-lead y security si hay dinero, autorización o datos personales — corren
+  una vez por historia. Las subtareas sensibles (auth, dinero, RLS, migraciones, cripto) siguen
+  pasando por code-reviewer. ¿Quieres el comportamiento anterior? Pon `review_tier: strict` en
+  el CLAUDE.md del proyecto.
+- **El modelo adecuado por rol.** Revisores y docs usan `sonnet`; architect, security y
+  tech-lead usan `opus`.
+- **Reglas fijas chicas** (menos de 13 KB, lo vigila un test). El detalle vive en estándares
+  que se leen cuando hacen falta.
+- **Disciplina de sesión** (`rules/context-budget.md`): compactar al terminar cada historia,
+  reportar por historia, leer solo los logs que fallaron, una sola espera en segundo plano por
+  corrida de CI.
+
 ## Actualizar, revisar, desinstalar
 
 ```bash
