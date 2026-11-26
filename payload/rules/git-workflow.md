@@ -1,40 +1,32 @@
-## Git Workflow (every project) — CI/release detail in `~/.claude/standards/delivery.md`
+## Git Workflow (every project) — detail: `~/.claude/standards/delivery.md`, reviews: `standards/review.md`
 
 ### Rule 0 (NON-NEGOTIABLE): every task starts on a branch
-- **Never work or commit directly on `dev`, `main` or `master`** — not one file, not docs,
-  not plans. The `guard-actions` hook blocks it.
-- Branch before the first edit. If you discover mid-task that you are on a protected branch:
-  `git branch <new>` → `git reset --hard <base>` on the protected one → `git checkout <new>`.
+- Never work or commit on `dev`, `main` or `master` — not one file, docs or plans. The
+  `guard-actions` hook blocks it. Branch before the first edit; caught on a protected branch
+  mid-task: `git branch <new>` → `git reset --hard <base>` there → `git checkout <new>`.
 
 ### Branches
-- Protected: `dev` (integration) and `main` or `master` (production; whichever the repo has).
-- Story/epic: temporary branch `story/<id>-<slug>` or `epic/<id>-<slug>`, cut from `dev`
-  (from `main`/`master` if there is no `dev`). It collects the PRs of its subtasks.
-- Subtask: one branch per subtask, cut from the story branch:
-  `feature/<id>-<slug>`, `fix/`, `refactor/`, `test/`, `docs/`, `chore/`.
+- Protected: `dev` (integration) and `main`/`master` (production).
+- Umbrella: one `epic/<id>-<slug>` or `story/<id>-<slug>` per request with more than one task,
+  cut from `dev` (else `main`/`master`). Nothing from its tasks goes straight to `dev`.
+- Subtask: `feature|fix|refactor|test|docs|chore/<id>-<slug>` from the umbrella.
 - Hotfix: `hotfix/<id>-<slug>` from `main`/`master`; PR to production, then back-merge to `dev`.
 
-### PR flow (one umbrella branch per request)
-Every request with more than one task works like this, without the owner repeating it:
-0. Break it into tasks and cut **one umbrella branch** (`epic/<id>-<slug>` or `story/…`) from
-   `dev`. Nothing from the tasks goes straight to `dev`.
-1. Subtask → its own branch from the umbrella → PR **into the umbrella branch**. Before
-   merging: **QA (qa-sr) + Code Review (code-reviewer)** approved and CI green. Squash merge.
-   No owner confirmation needed.
-2. When ALL tasks are in the umbrella → umbrella PR → `dev`, with **QA of the whole request +
-   an overall Code Review** (plus tech-lead/security when it touches money, authz or personal
-   data). Merge only when everything is green. **Needs the owner's confirmation** unless the
-   owner authorized that merge when approving the plan or the project's autonomy is `auto`.
-3. Release → PR `dev` → `main`/`master`, merge commit + SemVer tag + CHANGELOG.
-   **Needs the owner's confirmation** (same exceptions).
-- No force push to protected branches (blocked). `--force-with-lease` only on your own branches.
-- Conventional commits; atomic, signed commits; semantic versioning.
-- Every repo has CODEOWNERS and branch protection on `dev` and `main`/`master`
-  (PR required, required checks, no force push).
+### PR flow and review tiers
+1. Subtask → PR into the umbrella: tests and local CI green + **one light review**
+   (<!-- codex -->`codex-task review` with a risk brief; without Codex, <!-- /codex -->the `subtask-reviewer` agent). Squash merge, no owner
+   confirmation. Subtasks touching auth/authz, money, RLS, migrations or crypto also get
+   @code-reviewer.
+2. Umbrella → `dev`: the full gates, once — @qa-sr + @code-reviewer (+ @tech-lead/@security
+   for money, authz or personal data). **Owner confirms** unless authorized in the plan or the
+   project's autonomy is `auto`.
+3. Release `dev` → `main`/`master`: merge commit + SemVer tag + CHANGELOG. **Owner confirms**
+   (same exceptions).
+- Re-reviews read only the diff since the last verdict. `review_tier: strict` in a project's
+  CLAUDE.md restores @qa-sr + @code-reviewer on every subtask PR.
+- Local CI (`pnpm ci:local` or `act`, `standards/ci-local.md`) before opening or marking a PR
+  ready: red locally = no PR. Watch remote CI with one background watch, never by polling.
+- No force push to protected branches; `--force-with-lease` only on your own. Conventional,
+  atomic, signed commits; SemVer. CODEOWNERS + branch protection on protected branches.
 
-### Closing a branch
-- After a merge: go back to `dev` (or `main`/`master` if there is no `dev`) and pull.
-- Cleanup: run `~/.claude/bin/git-prune-merged` (dry run), **show the owner the list and wait
-  for confirmation**, then `--apply`. It detects normal merges, squash merges and stacked
-  sub-branches.
-- A branch with work that is not in `dev`/`main`/`master` is never deleted: ask the owner.
+- Closing: back to `dev` and pull; `git-prune-merged` dry run → owner confirms → `--apply`.

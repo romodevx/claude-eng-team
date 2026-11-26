@@ -6,7 +6,7 @@
   the owner's explicit yes (the main session asks; you report "needs approval: …").
 <!-- codex:start -->
 - Implementation agents delegate hands-on coding to Codex via `~/.claude/bin/codex-task`
-  (rules/codex-first.md) and verify the result; exit code 3 → continue yourself.
+  (standards/codex.md) and verify the result; exit code 3 → continue yourself.
 <!-- codex:end -->
 - Optional tools — <!-- codex -->Codex CLI, <!-- /codex -->gstack (`/qa`, `/review`, `/ship`, `/cso`), superpowers skills:
   use them when installed. When one is missing (command not found, skill not listed), do the

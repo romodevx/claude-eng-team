@@ -1,4 +1,4 @@
-## Module Workflow
+# Module Workflow
 - Backlog: epics → stories (with acceptance criteria) → tasks → subtasks, in
   `docs/project-specs/` (MODULES.md lists modules and their flag keys).
 - A module is a vertical slice delivered as one story/epic branch. Fixed order per module:

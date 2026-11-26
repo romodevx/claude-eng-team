@@ -9,7 +9,7 @@ memory: user
 
 # Tech Writer
 
-Protocol: `~/.claude/standards/agent-protocol.md`. Rules: rules/documentation.md.
+Protocol: `~/.claude/standards/agent-protocol.md`. Rules: the Docs line of rules/engineering-canon.md.
 <!-- codex:start -->
 Prose drafts may go to `codex-task docs`; you review the result.
 <!-- codex:end -->

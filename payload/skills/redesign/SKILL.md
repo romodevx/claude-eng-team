@@ -17,7 +17,7 @@ proposal for the owner — never fold it in.
 ## 0. Baseline (before touching anything)
 - Branch first (git-workflow Regla 0): `feature/redesign-<screen>` from `dev`, else
   `main`/`master`.
-- Open the screen in the visible browser (`$B connect`, rules/qa-browser.md).
+- Open the screen in the visible browser (`$B connect`, standards/qa-browser.md).
   Screenshot every state: empty, with data, error, loading → `.gstack/redesign/<screen>/before/`.
 - Write the **behavior inventory** in `.gstack/redesign/<screen>/behavior.md`: every
   action on the screen, what it calls, what it changes, every state and message.
@@ -49,7 +49,7 @@ proposal for the owner — never fold it in.
 - Stop for approval.
 
 ## 4. Build
-- Behind a feature flag (rules/feature-flags.md) so old and new can be compared;
+- Behind a feature flag (standards/feature-flags.md) so old and new can be compared;
   flag default OFF. Old screen stays intact until the owner retires it.
 - TDD: failing component test first for each new piece (rules/tdd.md). Reuse existing
   handlers/hooks/API clients — the new UI calls exactly what the old one called.

@@ -65,10 +65,12 @@ test('codex files are skipped unless codex is enabled', () => {
   install(baseOpts(home));
   assert.ok(!exists(home, 'bin/codex-task'));
   assert.ok(!exists(home, 'rules/codex-first.md'));
+  assert.ok(!exists(home, 'standards/codex.md'));
   const home2 = tempHome();
   install(baseOpts(home2, { codex: true }));
   assert.ok(exists(home2, 'bin/codex-task'));
-  assert.match(read(home2, 'CLAUDE.md'), /Handoff file/);
+  assert.ok(exists(home2, 'rules/codex-first.md'));
+  assert.ok(exists(home2, 'standards/codex.md'));
 });
 
 test('an existing CLAUDE.md is kept and imports ours', () => {
